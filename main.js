@@ -2433,7 +2433,7 @@ Game.Launch=function()
 			Game.attachTooltip(l('topbarMobileCC'),'<div style="padding:8px;width:250px;text-align:center;">手机版本的 Cookie Clicker!<br>(目前只有安卓版; iOS 版将在之后发布)</div>','this');
 			Game.attachTooltip(l('topbarSteamCC'),'<div style="padding:8px;width:250px;text-align:center;">在 Steam 上购买 Cookie Clicker！<br>(Steam版自带中文，可装我们的汉化润色MOD，强烈推荐。<br>你在这个网页汉化版游玩不会给作者带来广告收入)</div>','this');
 			if (Game.CNMODInfo?.Description)
-			Game.attachTooltip(l('topbarTranslators'),'<div style="padding:8px;width:250px;text-align:center;">'+Game.CNMODInfo.Descriptions+'</div>','this');
+			Game.attachTooltip(l('topbarTranslators'),'<div style="padding:8px;width:250px;text-align:center;">'+Game.CNMODInfo.Description+'</div>','this');
 			// Game.attachTooltip(l('topbarRandomgen'),'<div style="padding:8px;width:250px;text-align:center;">A thing we made that lets you write random generators.</div>','this');
 			// Game.attachTooltip(l('topbarIGM'),'<div style="padding:8px;width:250px;text-align:center;">A thing we made that lets you create your own idle games using a simple scripting language.</div>','this');
 			// l('changeLanguage').innerHTML=loc("Change language");
