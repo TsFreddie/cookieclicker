@@ -10,6 +10,32 @@ Spoilers ahead.
 http://orteil.dashnet.org
 */
 
+/*
+Polyfill
+*/
+(function(){
+	if ("performance" in window == false) {
+		window.performance = {};
+	}
+	
+	Date.now = (Date.now || function () {  // thanks IE8
+		return new Date().getTime();
+	});
+  
+	if ("now" in window.performance == false){
+	  
+	  var nowOffset = Date.now();
+	  
+	  if (performance.timing && performance.timing.navigationStart){
+		nowOffset = performance.timing.navigationStart
+	  }
+  
+	  window.performance.now = function now(){
+		return Date.now() - nowOffset;
+	  }
+	}
+})();
+
 /*=====================================================================================
 MISC HELPER FUNCTIONS
 =======================================================================================*/
@@ -1860,7 +1886,7 @@ Game.Launch=function()
 		Game.T=0;
 		Game.drawT=0;
 		Game.loopT=0;
-		Game.fps=30;
+		Game.fps=localStorageGet('modSmoothFps') || 30;
 		
 		Game.season=Game.baseSeason;
 		
@@ -14519,6 +14545,7 @@ Game.Launch=function()
 		setTimeout(function(){if (typeof showAds==='undefined' && (!l('detectAds') || l('detectAds').clientHeight<1)) Game.addClass('noAds');},500);
 		l('offGameMessage').innerHTML='';
 		l('offGameMessageWrap').style.display='none';
+
 		Game.Loop();
 		Game.Draw();
 		
@@ -15013,7 +15040,7 @@ Game.Launch=function()
 		}
 		if (!Game.toSave && !Game.isSaving)
 		{
-			if (Game.toReload) {if (!App){location.reload();}else{App.reload();}}
+			if (Game.toReload) {if (!App){location.reload();Game.toReload=false;}else{App.reload();}}
 			if (Game.toQuit) {if (!App){window.close();}else{App.quit();}}
 		}
 		
@@ -15142,7 +15169,7 @@ Game.Launch=function()
 	/*=====================================================================================
 	MAIN LOOP
 	=======================================================================================*/
-	Game.Loop=function()
+	Game.InternalLoop=function()
 	{
 		if (Game.timedout) return false;
 		Timer.say('START');
@@ -15217,7 +15244,37 @@ Game.Launch=function()
 		Timer.reset();
 		
 		Game.loopT++;
-		setTimeout(Game.Loop,1000/Game.fps);
+	}
+	
+	Game.Loop=function()
+	{
+		Game.lastFrame = window.performance.now();
+		Game.gameInterval = 1000 / Game.fps;
+	
+		const RAFLoop = () => {
+			if (Game.timedout) return;
+			requestAnimationFrame(RAFLoop);
+			const now = window.performance.now();
+			const delta = now - Game.lastFrame;
+			if (Math.abs(delta - Game.gameInterval) < 0.05 || delta > Game.gameInterval) {
+				Game.lastFrame = now - (delta % this.gameInterval);
+				Game.InternalLoop();
+			}
+		};
+	
+		// Lauch game loop
+		RAFLoop();
+	
+		const BackgroundLoop = () => {
+			if (Game.timedout) {
+				clearInterval(Game.backgroundLoop);
+				return;
+			}
+			if (Game.visible) return;
+			Game.InternalLoop();
+		};
+	
+		Game.backgroundLoop = setInterval(BackgroundLoop, 1000 / Game.fps);
 	}
 }
 
