@@ -1,0 +1,15 @@
+{
+  "Name": "简体中文补全模组",
+  "ID": "TWCNClickerCN",
+  "Author": "TeeworldsCN",
+  "Description": "简体中文润色与补全，翻译贡献者：AbyssAir、cyxw、DullBoi、lyu-kun、SmoneumMaestro、TsFreddie、Yuanshou与匿名贡献的各位。",
+  "ModVersion": 1634401084,
+  "GameVersion": 2.042,
+  "Date": "16/10/2021",
+  "Dependencies": [],
+  "LanguagePacks": [
+    "lang.js"
+  ],
+  "AllowSteamAchievs": true,
+  "Disabled": 1
+}
