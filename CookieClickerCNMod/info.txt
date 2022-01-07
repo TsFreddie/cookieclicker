@@ -3,9 +3,9 @@
   "ID": "TWCNClickerCN",
   "Author": "TeeworldsCN",
   "Description": "简体中文润色与补全，翻译贡献者：AbyssAir、cyxw、DullBoi、lyu-kun、SmoneumMaestro、TsFreddie、Yuanshou与匿名贡献的各位。",
-  "ModVersion": 1641268653,
+  "ModVersion": 1641545243,
   "GameVersion": 2.043,
-  "Date": "04/01/2022",
+  "Date": "07/01/2022",
   "Dependencies": [],
   "LanguagePacks": [
     "lang.js"
