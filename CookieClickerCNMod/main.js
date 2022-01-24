@@ -1,5 +1,4 @@
-(function () {
-  const __TWCNL = {
+var __TWCNL = {
   // MOD_ID
   MOD_ID: 'TWCNClickerCN',
 
@@ -270,6 +269,7 @@
 };
 
 
+(function () {
   const __TWCNG = {
     // 按键
     UNIT_TOGGLE_KEY: 90,
