@@ -1035,11 +1035,40 @@ var __TWCNL = {
     return '<a class="smallFancyButton option off disabled" id="' + button + '">' + text + '</a>';
   };
 
+  const ModPrefButton = (prefName, button, on, off, callback, invert) => {
+    var invert = invert ? 1 : 0;
+    if (!callback) callback = '';
+    callback += "PlaySound('snd/tick.mp3');";
+    return (
+      '<a class="smallFancyButton prefButton option' +
+      (Game.prefs[prefName] ^ invert ? '' : ' off') +
+      '" id="' +
+      button +
+      '" ' +
+      Game.clickStr +
+      '="Game.Toggle(\'' +
+      prefName +
+      "','" +
+      button +
+      "','" +
+      on +
+      "','" +
+      off +
+      "','" +
+      invert +
+      "');" +
+      callback +
+      '">' +
+      (Game.prefs[prefName] ? on : off) +
+      '</a>'
+    );
+  };
+
   const ModPrefMenu = MOD => {
     return (
       `<div class="title">${__TWCNL.STR_SETTING_TITLE}</div>` +
       '<div class="listing">' +
-      Game.WriteButton(
+      ModPrefButton(
         'numbercn',
         'numbercnButton',
         __TWCNL.STR_SETTING_CNUNIT + ON,
@@ -1072,7 +1101,7 @@ var __TWCNL = {
             "Game.prefs.numbercnminunit=l('numbercnMinUnit').value;l('numbercnMinUnitRightText').innerHTML=__TWCNL.CN_UNITS_MIN[l('numbercnMinUnit').value];BeautifyAll();Game.RefreshStore();Game.upgradesToRebuild=1;"
           ) +
           '<br>' +
-          Game.WriteButton(
+          ModPrefButton(
             'numbercnfixlen',
             'numbercnFixLenButton',
             __TWCNL.STR_SETTING_FIXLEN + ON,
@@ -1080,7 +1109,7 @@ var __TWCNL = {
             'Game.UpdateMenu();BeautifyAll();Game.RefreshStore();Game.upgradesToRebuild=1;'
           ) +
           `<label>(${__TWCNL.STR_SETTING_FIXLEN_LABEL})</label><br>` +
-          Game.WriteButton(
+          ModPrefButton(
             'numbercntrillion',
             'numbercntrillionButton',
             __TWCNL.STR_SETTING_TRILLION + ON,
@@ -1090,7 +1119,7 @@ var __TWCNL = {
           `<label>(${__TWCNL.STR_SETTING_TRILLION_LABEL})</label><br>`
         : '') +
       '<br>' +
-      Game.WriteButton(
+      ModPrefButton(
         'numbercnsci',
         'numbercnDisableButton',
         __TWCNL.STR_SETTING_SCIENTIFIC + ON,
@@ -1114,7 +1143,7 @@ var __TWCNL = {
       '<br>' +
       (__TWCNL.BRAND_COOKIE_CN
         ? Game.Has('Box of brand biscuits')
-          ? Game.WriteButton(
+          ? ModPrefButton(
               'brandcn',
               'brandcnButton',
               '替换品牌饼干' + ON,
